@@ -1,7 +1,6 @@
-git_lfs.settings_form:
-  title: 'Git LFS Settings'
-  route_name: git_lfs.settings_form
-  description: 'Settings for the Git LFS module'
+entity.lfs_server.collection:
+  title: 'Git LFS'
+  route_name: entity.lfs_server.collection
+  description: 'Configure Git LFS Servers'
   parent: system.admin_config_system
   weight: 99
-

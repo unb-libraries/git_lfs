@@ -1,0 +1,6 @@
+entity.lfs_server.add_form:
+  route_name: entity.lfs_server.add_form
+  title: 'Add Git LFS Server'
+  appears_on:
+    - entity.lfs_server.collection
+
