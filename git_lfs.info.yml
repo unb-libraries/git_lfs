@@ -1,0 +1,5 @@
+name: git_lfs
+type: module
+description: Git LFS File Storage
+core: 8.x
+package: Storage

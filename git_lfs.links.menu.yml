@@ -1,0 +1,7 @@
+git_lfs.settings_form:
+  title: 'Git LFS Settings'
+  route_name: git_lfs.settings_form
+  description: 'Settings for the Git LFS module'
+  parent: system.admin_config_system
+  weight: 99
+

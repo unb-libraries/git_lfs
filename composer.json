@@ -1,0 +1,14 @@
+{
+  "name": "drupal/git_lfs",
+  "type": "drupal-module",
+  "description": "Git LFS File Storage",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/git_lfs",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/git_lfs",
+    "source": "http://cgit.drupalcode.org/git_lfs"
+  },
+  "require": { }
+}

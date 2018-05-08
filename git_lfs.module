@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains git_lfs.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function git_lfs_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the git_lfs module.
+    case 'help.page.git_lfs':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Git LFS File Storage') . '</p>';
+      return $output;
+
+    default:
+  }
+}
