@@ -7,6 +7,22 @@ git_lfs.lfs_server.*:
       label: 'ID'
     label:
       type: label
-      label: 'Label'
+      label: 'Name'
     uuid:
       type: string
+      label: 'UUID'
+    description:
+      type: text
+      label: 'Description'
+    status:
+      type: boolean
+      label: 'Status'
+    repository_string:
+      type: text
+      label: 'Repository Owner/Name'
+    repository_branch:
+      type: text
+      label: 'Repository Branch'
+    repository_token:
+      type: text
+      label: 'Repository Access Token'

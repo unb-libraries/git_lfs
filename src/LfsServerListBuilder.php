@@ -14,7 +14,7 @@ class LfsServerListBuilder extends ConfigEntityListBuilder {
    * {@inheritdoc}
    */
   public function buildHeader() {
-    $header['label'] = $this->t('Git LFS Server');
+    $header['name'] = $this->t('Git LFS Server');
     $header['id'] = $this->t('Machine name');
     return $header + parent::buildHeader();
   }

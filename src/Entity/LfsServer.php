@@ -27,7 +27,8 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  *   entity_keys = {
  *     "id" = "id",
  *     "label" = "label",
- *     "uuid" = "uuid"
+ *     "uuid" = "uuid",
+ *     "status" = "status"
  *   },
  *   links = {
  *     "canonical" = "/admin/config/git_lfs/lfs_server/{lfs_server}",
@@ -41,17 +42,129 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
 class LfsServer extends ConfigEntityBase implements LfsServerInterface {
 
   /**
-   * The Git LFS Server ID.
+   * The ID of the server.
    *
    * @var string
    */
   protected $id;
 
   /**
-   * The Git LFS Server label.
+   * The displayed name of the server.
    *
    * @var string
    */
-  protected $label;
+  protected $label = '';
+
+  /**
+   * The displayed description of the server.
+   *
+   * @var string
+   */
+  protected $description = '';
+
+  /**
+   * The owner/name of the repository to target.
+   *
+   * @var string
+   */
+  protected $repository_string = '';
+
+  /**
+   * The owner/name of the repository to target.
+   *
+   * @var string
+   */
+  protected $repository_branch = '';
+
+  /**
+   * The API access token that has rights to the repository.
+   *
+   * @var string
+   */
+  protected $repository_token = '';
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDescription() {
+    return $this->description;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setDescription($description) {
+    $this->description = $description;
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getRepositoryString() {
+    return $this->repository_string;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setRepositoryString($repository_string) {
+    $this->repository_string = $repository_string;
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getRepositoryName() {
+    $name = NULL;
+    $string_data = explode('/', $this->repository_string);
+    if (count($string_data) > 1 && !empty($string_data[1])) {
+      $name = $string_data[1];
+    }
+    return $name;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getRepositoryOwner() {
+    $owner = NULL;
+    $string_data = explode('/', $this->repository_string);
+    if (count($string_data) > 1 && !empty($string_data[0])) {
+      $owner = $string_data[0];
+    }
+    return $owner;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getRepositoryBranch() {
+    return $this->repository_branch;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setRepositoryBranch($repository_branch) {
+    $this->repository_branch = $repository_branch;
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getRepositoryToken() {
+    return $this->repository_token;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setRepositoryToken($repository_token) {
+    $this->repository_token = $repository_token;
+    return $this;
+  }
 
 }
