@@ -296,7 +296,23 @@ class LfsServer extends ConfigEntityBase implements LfsServerInterface {
    * {@inheritdoc}
    */
   public function getServerStatus() {
-    return $this->getGitHubStatus();
+    if ((bool) $this->status()) {
+      $github_status = $this->getGitHubStatus();
+      if ($github_status['available'] == FALSE) {
+        return $github_status;
+      }
+
+      return [
+        'available' => TRUE,
+        'message' => $this->t('The GitHub repository and LFS servers can both be reached and are properly configured.'),
+      ];
+    }
+    else {
+      return [
+        'available' => FALSE,
+        'message' => $this->t('The repository and server were not checked, due to the repository being disabled.'),
+      ];
+    }
   }
 
   private function getGitHubStatus() {
@@ -351,7 +367,7 @@ class LfsServer extends ConfigEntityBase implements LfsServerInterface {
 
     return [
       'available' => TRUE,
-      'message' => $this->t('The GitHub repository and LFS servers can both be reached.'),
+      'message' => $this->t('The GitHub repository can be reached and is properly configured.'),
     ];
   }
 
