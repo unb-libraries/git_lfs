@@ -14,10 +14,10 @@ class LfsServerListBuilder extends ConfigEntityListBuilder {
    * {@inheritdoc}
    */
   public function buildHeader() {
-    $header['label'] = $this->t('Git LFS Server');
-    $header['repository_string'] = $this->t('Repository');
+    $header['label'] = $this->t('Name');
+    $header['repository_string'] = $this->t('GitHub Repository');
     $header['repository_branch'] = $this->t('Branch');
-    $header['lfs_host'] = $this->t('LFS Hostname');
+    $header['lfs_host'] = $this->t('LFS Server');
     $header['status'] = $this->t('Status');
     return $header + parent::buildHeader();
   }
@@ -29,7 +29,7 @@ class LfsServerListBuilder extends ConfigEntityListBuilder {
     $row['label'] = $entity->label();
     $row['repository_string'] = $entity->getRepositoryString();
     $row['repository_branch'] = $entity->getRepositoryBranch();
-    $row['lfs_host'] = $entity->getLfsHost();
+    $row['lfs_host'] = $entity->getLfsServerBaseUri();
 
     $status = $entity->status();
     $status_label = $status ? $this->t('Enabled') : $this->t('Disabled');

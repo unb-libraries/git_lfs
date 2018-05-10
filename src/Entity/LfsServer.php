@@ -206,7 +206,7 @@ class LfsServer extends ConfigEntityBase implements LfsServerInterface {
    * {@inheritdoc}
    */
   public function getLfsProtocol() {
-    return $this->description;
+    return $this->lfs_protocol;
   }
 
   /**
@@ -221,7 +221,7 @@ class LfsServer extends ConfigEntityBase implements LfsServerInterface {
    * {@inheritdoc}
    */
   public function getLfsHost() {
-    return $this->description;
+    return $this->lfs_host;
   }
 
   /**
@@ -236,7 +236,7 @@ class LfsServer extends ConfigEntityBase implements LfsServerInterface {
    * {@inheritdoc}
    */
   public function getLfsPort() {
-    return $this->description;
+    return $this->lfs_port;
   }
 
   /**
@@ -275,6 +275,17 @@ class LfsServer extends ConfigEntityBase implements LfsServerInterface {
   public function setLfsAuthPass($password) {
     $this->lfs_auth_pass = $password;
     return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getLfsServerBaseUri() {
+    return $this->getLfsProtocol() .
+      '://' .
+      $this->getLfsHost() .
+      ':' .
+      $this->getLfsPort();
   }
 
 }

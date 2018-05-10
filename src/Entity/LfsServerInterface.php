@@ -187,4 +187,12 @@ interface LfsServerInterface extends ConfigEntityInterface {
    */
   public function setLfsAuthPass($password);
 
+  /**
+   * Retrieves the LFS server base URI.
+   *
+   * @return string
+   *   The LFS server base URI.
+   */
+  public function getLfsServerBaseUri();
+
 }
