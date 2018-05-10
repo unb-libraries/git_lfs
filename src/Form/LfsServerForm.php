@@ -73,6 +73,12 @@ class LfsServerForm extends EntityForm {
       '#description' => $this->t('Enter the repository Owner/Name e.g. "unblibraries/art-archival-masters".'),
       '#default_value' => $lfs_server->getRepositoryString(),
       '#required' => TRUE,
+      '#element_validate' => [
+        [
+          '\Drupal\git_lfs\Plugin\Validation\ValidGitHubOwnerRepoValidator',
+          'validate'
+        ]
+      ],
     ];
 
     $form['github']['repository_branch'] = [
