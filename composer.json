@@ -10,5 +10,8 @@
     "issues": "https://www.drupal.org/project/issues/git_lfs",
     "source": "http://cgit.drupalcode.org/git_lfs"
   },
-  "require": { }
+  "require": {
+    "knplabs/github-api": "^2.8.0",
+    "php-http/guzzle6-adapter": "^1.1.1"
+  }
 }

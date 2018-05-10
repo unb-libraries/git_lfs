@@ -22,7 +22,6 @@ class LfsServerForm extends EntityForm {
     $form['info'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('Server Information'),
-      '#description' => $this->t('Administrative information about this Git LFS Server.'),
       '#collapsible' => TRUE,
       '#collapsed' => FALSE,
     ];
@@ -64,14 +63,13 @@ class LfsServerForm extends EntityForm {
     $form['github'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('GitHub Repository Details'),
-      '#description' => $this->t('Information about the LFS-enabled repository. Currently, only GitHub repositories are supported.'),
       '#collapsible' => TRUE,
       '#collapsed' => FALSE,
     ];
 
     $form['github']['repository_string'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Repository Owner/Name'),
+      '#title' => $this->t('Owner/Name'),
       '#description' => $this->t('Enter the repository Owner/Name e.g. "unblibraries/art-archival-masters".'),
       '#default_value' => $lfs_server->getRepositoryString(),
       '#required' => TRUE,
@@ -79,16 +77,16 @@ class LfsServerForm extends EntityForm {
 
     $form['github']['repository_branch'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Repository Branch'),
+      '#title' => $this->t('Branch'),
       '#description' => $this->t('Enter the repository branch e.g. "master".'),
       '#default_value' => $lfs_server->getRepositoryBranch(),
       '#required' => TRUE,
     ];
 
     $form['github']['repository_token'] = [
-      '#type' => 'password',
-      '#title' => $this->t('Repository Access Token'),
-      '#description' => $this->t('Enter an access token that has premission to read and write to the repository via the GitHub API.'),
+      '#type' => 'textfield',
+      '#title' => $this->t('Access/Deploy Token'),
+      '#description' => $this->t('Enter an access token that has permission to read and write to the repository via the GitHub API.'),
       '#default_value' => $lfs_server->getRepositoryToken(),
       '#required' => empty($lfs_server->getRepositoryToken()),
     ];
@@ -96,14 +94,25 @@ class LfsServerForm extends EntityForm {
     $form['lfs_server'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('LFS Server Details'),
-      '#description' => $this->t('Information about the LFS content server.'),
       '#collapsible' => TRUE,
       '#collapsed' => FALSE,
     ];
 
+    $form['lfs_server']['lfs_protocol'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Protocol'),
+      '#description' => $this->t('Select the protocol of the LFS content server.'),
+      '#options' => [
+        'http' => 'http',
+        'https' => 'https',
+      ],
+      '#default_value' => empty($lfs_server->getLfsProtocol())? 'http': $lfs_server->getLfsProtocol(),
+      '#required' => TRUE,
+    ];
+
     $form['lfs_server']['lfs_host'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('LFS Content Server Hostname'),
+      '#title' => $this->t('Hostname'),
       '#description' => $this->t('Enter the hostname of the LFS content server.'),
       '#default_value' => $lfs_server->getLfsHost(),
       '#required' => TRUE,
@@ -111,12 +120,28 @@ class LfsServerForm extends EntityForm {
 
     $form['lfs_server']['lfs_port'] = [
       '#type' => 'number',
-      '#title' => $this->t('LFS Content Server Port'),
+      '#title' => $this->t('Port'),
       '#description' => $this->t('Enter the port the LFS content server listens on.'),
-      '#default_value' => $lfs_server->getLfsPort(),
+      '#default_value' => empty($lfs_server->getLfsPort())? 6983: $lfs_server->getLfsPort(),
       '#min' => 1,
       '#max' => 32768,
       '#step' => 1,
+      '#required' => TRUE,
+    ];
+
+    $form['lfs_server']['lfs_auth_user'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Authentication Username'),
+      '#description' => $this->t('Enter the username for the LFS content server authentication.'),
+      '#default_value' => $lfs_server->getLfsAuthUser(),
+      '#required' => TRUE,
+    ];
+
+    $form['lfs_server']['lfs_auth_pass'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Authentication Password'),
+      '#description' => $this->t('Enter the username for the LFS content server authentication.'),
+      '#default_value' => $lfs_server->getLfsAuthPass(),
       '#required' => TRUE,
     ];
 

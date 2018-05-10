@@ -84,6 +84,13 @@ class LfsServer extends ConfigEntityBase implements LfsServerInterface {
   protected $repository_token = NULL;
 
   /**
+   * The protocol of the LFS content server.
+   *
+   * @var string
+   */
+  protected $lfs_protocol = NULL;
+
+  /**
    * The hostname of the LFS content server.
    *
    * @var string
@@ -96,6 +103,20 @@ class LfsServer extends ConfigEntityBase implements LfsServerInterface {
    * @var int
    */
   protected $lfs_port = NULL;
+
+  /**
+   * The user for the LFS content server.
+   *
+   * @var int
+   */
+  protected $lfs_auth_user = NULL;
+
+  /**
+   * The password for the LFS content server.
+   *
+   * @var int
+   */
+  protected $lfs_auth_pass = NULL;
 
   /**
    * {@inheritdoc}
@@ -184,6 +205,21 @@ class LfsServer extends ConfigEntityBase implements LfsServerInterface {
   /**
    * {@inheritdoc}
    */
+  public function getLfsProtocol() {
+    return $this->description;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setLfsProtocol($protocol) {
+    $this->lfs_protocol = $protocol;
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getLfsHost() {
     return $this->description;
   }
@@ -208,6 +244,36 @@ class LfsServer extends ConfigEntityBase implements LfsServerInterface {
    */
   public function setLfsPort($port) {
     $this->lfs_port = $port;
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getLfsAuthUser() {
+    return $this->lfs_auth_user;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setLfsAuthUser($username) {
+    $this->lfs_auth_user = $username;
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getLfsAuthPass() {
+    return $this->lfs_auth_pass;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setLfsAuthPass($password) {
+    $this->lfs_auth_pass = $password;
     return $this;
   }
 

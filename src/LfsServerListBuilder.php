@@ -30,7 +30,21 @@ class LfsServerListBuilder extends ConfigEntityListBuilder {
     $row['repository_string'] = $entity->getRepositoryString();
     $row['repository_branch'] = $entity->getRepositoryBranch();
     $row['lfs_host'] = $entity->getLfsHost();
-    $row['status'] = $entity->status();
+
+    $status = $entity->status();
+    $status_label = $status ? $this->t('Enabled') : $this->t('Disabled');
+    $row['status'] = [
+      'data' => [
+        '#theme' => 'image',
+        '#uri' => $status ? 'core/misc/icons/73b355/check.svg' : 'core/misc/icons/e32700/error.svg',
+        '#width' => 18,
+        '#height' => 18,
+        '#alt' => $status_label,
+        '#title' => $status_label,
+      ],
+      'class' => ['checkbox'],
+    ];
+
     return $row + parent::buildRow($entity);
   }
 

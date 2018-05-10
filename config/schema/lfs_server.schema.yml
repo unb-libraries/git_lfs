@@ -19,16 +19,25 @@ git_lfs.lfs_server.*:
       label: 'Status'
     repository_string:
       type: text
-      label: 'Repository Owner/Name'
+      label: 'GitHub Repository Owner/Name'
     repository_branch:
       type: text
-      label: 'Repository Branch'
+      label: 'GitHub Repository Branch'
     repository_token:
       type: text
-      label: 'Repository Access Token'
+      label: 'GitHub Repository Access Token'
+    lfs_protocol:
+      type: text
+      label: 'LFS Content Server Protocol'
     lfs_host:
       type: text
       label: 'LFS Content Server Hostname'
     lfs_port:
-      type: integer
+      type: text
       label: 'LFS Content Server Port'
+    lfs_auth_user:
+      type: text
+      label: 'LFS Content Server User Name'
+    lfs_auth_pass:
+      type: text
+      label: 'LFS Content Server User Password'
