@@ -15,6 +15,8 @@ class LfsServerForm extends EntityForm {
    */
   public function form(array $form, FormStateInterface $form_state) {
     $form = parent::form($form, $form_state);
+
+    /** @var \Drupal\git_lfs\entity\LfsServer $lfs_server */
     $lfs_server = $this->entity;
 
     $form['info'] = [
@@ -84,11 +86,11 @@ class LfsServerForm extends EntityForm {
     ];
 
     $form['github']['repository_token'] = [
-      '#type' => 'textfield',
+      '#type' => 'password',
       '#title' => $this->t('Repository Access Token'),
       '#description' => $this->t('Enter an access token that has premission to read and write to the repository via the GitHub API.'),
       '#default_value' => $lfs_server->getRepositoryToken(),
-      '#required' => TRUE,
+      '#required' => empty($lfs_server->getRepositoryToken()),
     ];
 
     $form['lfs_server'] = [
@@ -97,6 +99,25 @@ class LfsServerForm extends EntityForm {
       '#description' => $this->t('Information about the LFS content server.'),
       '#collapsible' => TRUE,
       '#collapsed' => FALSE,
+    ];
+
+    $form['lfs_server']['lfs_host'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('LFS Content Server Hostname'),
+      '#description' => $this->t('Enter the hostname of the LFS content server.'),
+      '#default_value' => $lfs_server->getLfsHost(),
+      '#required' => TRUE,
+    ];
+
+    $form['lfs_server']['lfs_port'] = [
+      '#type' => 'number',
+      '#title' => $this->t('LFS Content Server Port'),
+      '#description' => $this->t('Enter the port the LFS content server listens on.'),
+      '#default_value' => $lfs_server->getLfsPort(),
+      '#min' => 1,
+      '#max' => 32768,
+      '#step' => 1,
+      '#required' => TRUE,
     ];
 
     return $form;

@@ -26,3 +26,9 @@ git_lfs.lfs_server.*:
     repository_token:
       type: text
       label: 'Repository Access Token'
+    lfs_host:
+      type: text
+      label: 'LFS Content Server Hostname'
+    lfs_port:
+      type: integer
+      label: 'LFS Content Server Port'

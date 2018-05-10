@@ -97,4 +97,40 @@ interface LfsServerInterface extends ConfigEntityInterface {
    */
   public function setRepositoryToken($repository_token);
 
+  /**
+   * Retrieves the server's LFS content server hostname.
+   *
+   * @return string
+   *   The LFS content server hostname of the server.
+   */
+  public function getLfsHost();
+
+  /**
+   * Sets the server's LFS content server hostname.
+   *
+   * @param string $hostname
+   *   The new LFS content server hostname of the server.
+   *
+   * @return $this
+   */
+  public function setLfsHost($hostname);
+
+  /**
+   * Retrieves the server's LFS content server port.
+   *
+   * @return string
+   *   The LFS content server hostname of the server.
+   */
+  public function getLfsPort();
+
+  /**
+   * Sets the server's LFS content server port.
+   *
+   * @param integer $port
+   *   The new LFS content server port of the server.
+   *
+   * @return $this
+   */
+  public function setLfsPort($port);
+
 }

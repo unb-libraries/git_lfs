@@ -14,8 +14,11 @@ class LfsServerListBuilder extends ConfigEntityListBuilder {
    * {@inheritdoc}
    */
   public function buildHeader() {
-    $header['name'] = $this->t('Git LFS Server');
-    $header['id'] = $this->t('Machine name');
+    $header['label'] = $this->t('Git LFS Server');
+    $header['repository_string'] = $this->t('Repository');
+    $header['repository_branch'] = $this->t('Branch');
+    $header['lfs_host'] = $this->t('LFS Hostname');
+    $header['status'] = $this->t('Status');
     return $header + parent::buildHeader();
   }
 
@@ -24,8 +27,10 @@ class LfsServerListBuilder extends ConfigEntityListBuilder {
    */
   public function buildRow(EntityInterface $entity) {
     $row['label'] = $entity->label();
-    $row['id'] = $entity->id();
-    // You probably want a few more properties here...
+    $row['repository_string'] = $entity->getRepositoryString();
+    $row['repository_branch'] = $entity->getRepositoryBranch();
+    $row['lfs_host'] = $entity->getLfsHost();
+    $row['status'] = $entity->status();
     return $row + parent::buildRow($entity);
   }
 

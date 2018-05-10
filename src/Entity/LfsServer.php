@@ -46,42 +46,56 @@ class LfsServer extends ConfigEntityBase implements LfsServerInterface {
    *
    * @var string
    */
-  protected $id;
+  protected $id = NULL;
 
   /**
    * The displayed name of the server.
    *
    * @var string
    */
-  protected $label = '';
+  protected $label = NULL;
 
   /**
    * The displayed description of the server.
    *
    * @var string
    */
-  protected $description = '';
+  protected $description = NULL;
 
   /**
    * The owner/name of the repository to target.
    *
    * @var string
    */
-  protected $repository_string = '';
+  protected $repository_string = NULL;
 
   /**
    * The owner/name of the repository to target.
    *
    * @var string
    */
-  protected $repository_branch = '';
+  protected $repository_branch = NULL;
 
   /**
    * The API access token that has rights to the repository.
    *
    * @var string
    */
-  protected $repository_token = '';
+  protected $repository_token = NULL;
+
+  /**
+   * The hostname of the LFS content server.
+   *
+   * @var string
+   */
+  protected $lfs_host = NULL;
+
+  /**
+   * The port of the LFS content server.
+   *
+   * @var int
+   */
+  protected $lfs_port = NULL;
 
   /**
    * {@inheritdoc}
@@ -164,6 +178,36 @@ class LfsServer extends ConfigEntityBase implements LfsServerInterface {
    */
   public function setRepositoryToken($repository_token) {
     $this->repository_token = $repository_token;
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getLfsHost() {
+    return $this->description;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setLfsHost($hostname) {
+    $this->lfs_host = $hostname;
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getLfsPort() {
+    return $this->description;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setLfsPort($port) {
+    $this->lfs_port = $port;
     return $this;
   }
 
