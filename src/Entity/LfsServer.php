@@ -123,6 +123,13 @@ class LfsServer extends ConfigEntityBase implements LfsServerInterface {
   protected $lfs_auth_pass = NULL;
 
   /**
+   * Errors returned from connecting to the servers.
+   *
+   * @var array[string]
+   */
+  protected $server_errors = [];
+
+  /**
    * {@inheritdoc}
    */
   public function getDescription() {
@@ -297,14 +304,11 @@ class LfsServer extends ConfigEntityBase implements LfsServerInterface {
    */
   public function getServerStatus() {
     if ((bool) $this->status()) {
-      $github_status = $this->getGitHubStatus();
-      if ($github_status['available'] == FALSE) {
-        return $github_status;
-      }
+      $this->getGitHubStatus();
 
       return [
-        'available' => TRUE,
-        'message' => $this->t('The GitHub repository and LFS servers can both be reached and are properly configured.'),
+        'available' => empty($this->server_errors),
+        'message' => empty($this->server_errors)? $this->t('The GitHub repository and LFS servers can both be reached and are properly configured.'): implode("\n", $this->server_errors)
       ];
     }
     else {
@@ -322,11 +326,8 @@ class LfsServer extends ConfigEntityBase implements LfsServerInterface {
       $client->authenticate($this->getRepositoryToken(), NULL, Client::AUTH_HTTP_TOKEN);
       $client->currentUser()->show();
     } catch (\Github\Exception\RuntimeException $e) {
-      $message = $this->t('Cannot Authenticate to Github with the given credentials.');
-      return [
-        'available' => FALSE,
-        'message' => $message,
-      ];
+      $this->server_errors[] = $this->t('Cannot Authenticate to Github with the given credentials.');
+      return;
     }
 
     // Try getting repository.
@@ -334,17 +335,13 @@ class LfsServer extends ConfigEntityBase implements LfsServerInterface {
       $repo_branches = $client->api('repo')
         ->branches($this->getRepositoryOwner(), $this->getRepositoryName());
     } catch (\Github\Exception\RuntimeException $e) {
-      $message = $this->t(
+      $this->server_errors[] = $this->t(
         'The repository "@repostring" does not exist on GitHub, or the user does not have credentials for it.',
         [
           '@repostring' => $this->getRepositoryString(),
         ]
       );
-
-      return [
-        'available' => FALSE,
-        'message' => $message,
-      ];
+      return;
     }
 
     // Try getting branch.
@@ -352,23 +349,17 @@ class LfsServer extends ConfigEntityBase implements LfsServerInterface {
       $repo_branches = $client->api('repo')
         ->branches($this->getRepositoryOwner(), $this->getRepositoryName(), $this->getRepositoryBranch());
     } catch (\Github\Exception\RuntimeException $e) {
-      $message = $this->t(
+      $this->server_errors[] = $this->t(
         'The repository branch "@repostring:@branch" does not exist on GitHub.',
         [
           '@branch' => $this->getRepositoryBranch(),
           '@repostring' => $this->getRepositoryString(),
         ]
       );
-      return [
-        'available' => FALSE,
-        'message' => $message,
-      ];
+      return;
     }
 
-    return [
-      'available' => TRUE,
-      'message' => $this->t('The GitHub repository can be reached and is properly configured.'),
-    ];
+    return;
   }
 
 }
