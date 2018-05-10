@@ -52,7 +52,7 @@ class LfsServerListBuilder extends ConfigEntityListBuilder {
     $row['status'] = [
       'data' => [
         '#theme' => 'image',
-        '#uri' => $status['reachable'] ? 'core/misc/icons/73b355/check.svg' : 'core/misc/icons/e32700/error.svg',
+        '#uri' => $status['available'] ? 'core/misc/icons/73b355/check.svg' : 'core/misc/icons/e32700/error.svg',
         '#width' => 18,
         '#height' => 18,
         '#alt' => $status['message'],

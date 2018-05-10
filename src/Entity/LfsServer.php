@@ -3,6 +3,8 @@
 namespace Drupal\git_lfs\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBase;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Github\Client;
 
 /**
  * Defines the Git LFS Server entity.
@@ -40,6 +42,8 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  * )
  */
 class LfsServer extends ConfigEntityBase implements LfsServerInterface {
+
+  use StringTranslationTrait;
 
   /**
    * The ID of the server.
@@ -292,9 +296,62 @@ class LfsServer extends ConfigEntityBase implements LfsServerInterface {
    * {@inheritdoc}
    */
   public function getServerStatus() {
+    return $this->getGitHubStatus();
+  }
+
+  private function getGitHubStatus() {
+    // Try authenticating with user.
+    try {
+      $client = new Client();
+      $client->authenticate($this->getRepositoryToken(), NULL, Client::AUTH_HTTP_TOKEN);
+      $client->currentUser()->show();
+    } catch (\Github\Exception\RuntimeException $e) {
+      $message = $this->t('Cannot Authenticate to Github with the given credentials.');
+      return [
+        'available' => FALSE,
+        'message' => $message,
+      ];
+    }
+
+    // Try getting repository.
+    try {
+      $repo_branches = $client->api('repo')
+        ->branches($this->getRepositoryOwner(), $this->getRepositoryName());
+    } catch (\Github\Exception\RuntimeException $e) {
+      $message = $this->t(
+        'The repository "@repostring" does not exist on GitHub, or the user does not have credentials for it.',
+        [
+          '@repostring' => $this->getRepositoryString(),
+        ]
+      );
+
+      return [
+        'available' => FALSE,
+        'message' => $message,
+      ];
+    }
+
+    // Try getting branch.
+    try {
+      $repo_branches = $client->api('repo')
+        ->branches($this->getRepositoryOwner(), $this->getRepositoryName(), $this->getRepositoryBranch());
+    } catch (\Github\Exception\RuntimeException $e) {
+      $message = $this->t(
+        'The repository branch "@repostring:@branch" does not exist on GitHub.',
+        [
+          '@branch' => $this->getRepositoryBranch(),
+          '@repostring' => $this->getRepositoryString(),
+        ]
+      );
+      return [
+        'available' => FALSE,
+        'message' => $message,
+      ];
+    }
+
     return [
       'available' => TRUE,
-      'message' => 'The repository and LFS server are reachable and responding.',
+      'message' => $this->t('The GitHub repository and LFS servers can both be reached.'),
     ];
   }
 
