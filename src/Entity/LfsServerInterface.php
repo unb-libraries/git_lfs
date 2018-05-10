@@ -195,4 +195,14 @@ interface LfsServerInterface extends ConfigEntityInterface {
    */
   public function getLfsServerBaseUri();
 
+  /**
+   * Retrieves the LFS server status array.
+   *
+   * @return array
+   *   An associative array containing the keys:
+   *     * available: Is the repository and LFS server available and ready?
+   *     * message: A message describing the availability.
+   */
+  public function getServerStatus();
+
 }

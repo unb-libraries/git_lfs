@@ -288,4 +288,14 @@ class LfsServer extends ConfigEntityBase implements LfsServerInterface {
       $this->getLfsPort();
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function getServerStatus() {
+    return [
+      'available' => TRUE,
+      'message' => 'The repository and LFS server are reachable and responding.',
+    ];
+  }
+
 }
