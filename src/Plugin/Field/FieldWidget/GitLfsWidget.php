@@ -64,6 +64,7 @@ class GitLfsWidget extends WidgetBase {
       '#size' => $this->getFieldSetting('max_length'),
       '#placeholder' => 'sha256:d00b432eb24f033713ffc1dc6e51e675d65d35c4cce9b7151e04db07d763eb08',
       '#maxlength' => $this->getFieldSetting('max_length'),
+      '#suffix' => 'Github Repo : flkadjsflkdajf<br>LFS Server: fdsfsdfsdfsf',
     ];
 
     return $element;

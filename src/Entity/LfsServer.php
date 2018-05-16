@@ -310,6 +310,14 @@ class LfsServer extends ConfigEntityBase implements LfsServerInterface {
   /**
    * {@inheritdoc}
    */
+  public static function getServerById($id) {
+    $storage = \Drupal::entityTypeManager()->getStorage('lfs_server');
+    return $storage->load($id);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public static function getEnabledServerOptions() {
     $options = [];
     $servers = self::getEnabledServers();
@@ -383,6 +391,13 @@ class LfsServer extends ConfigEntityBase implements LfsServerInterface {
     }
 
     return;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function getServerStatusHtmlSlug($id) {
+    $server = self::getServerById($id);
   }
 
 }
