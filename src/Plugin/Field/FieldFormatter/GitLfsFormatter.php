@@ -13,7 +13,7 @@ use Drupal\Core\Form\FormStateInterface;
  *
  * @FieldFormatter(
  *   id = "git_lfs_formatter",
- *   label = @Translation("Git lfs formatter"),
+ *   label = @Translation("Git LFS Formatter"),
  *   field_types = {
  *     "git_lfs_file"
  *   }
@@ -44,7 +44,14 @@ class GitLfsFormatter extends FormatterBase {
    */
   public function settingsSummary() {
     $summary = [];
-    // Implement settings summary.
+
+    $server_setting = $this->getFieldSetting('lfs_server');
+    if (!empty($server_setting)) {
+      $summary[] = t('LFS Server: @server', ['@server' => $server_setting]);
+    }
+    else {
+      $summary[] = t('Warning : No LFS Server Selected!');
+    }
 
     return $summary;
   }

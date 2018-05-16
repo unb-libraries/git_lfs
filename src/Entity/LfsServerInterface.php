@@ -205,4 +205,27 @@ interface LfsServerInterface extends ConfigEntityInterface {
    */
   public function getServerStatus();
 
+  /**
+   * Retrieves the status of the github repository and logs errors.
+   *
+   * @return null
+   */
+  function getGitHubStatus();
+
+  /**
+   * Retrieves a list of enabled servers in configuration.
+   *
+   * @return array
+   *   An array of $this objects.
+   */
+  function getEnabledServers();
+
+  /**
+   * Get an associative array list of enabled servers, suitable for select list.
+   *
+   * @return array
+   *   An array of enabled server github URIs, keyed by server ID.
+   */
+  public function getEnabledServerOptions();
+
 }

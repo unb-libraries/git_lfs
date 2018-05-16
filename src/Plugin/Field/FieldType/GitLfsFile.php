@@ -7,21 +7,24 @@ use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemBase;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Messenger\MessengerTrait;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\TypedData\DataDefinition;
+use Drupal\git_lfs\Entity\LfsServer;
 
 /**
  * Plugin implementation of the 'git_lfs_file' field type.
  *
  * @FieldType(
  *   id = "git_lfs_file",
- *   label = @Translation("Git lfs file"),
+ *   label = @Translation("Git LFS File"),
  *   description = @Translation("A git LFS file"),
  *   default_widget = "git_lfs_widget",
  *   default_formatter = "git_lfs_formatter"
  * )
  */
 class GitLfsFile extends FieldItemBase {
+  use MessengerTrait;
 
   // https://github.com/git-lfs/git-lfs/blob/master/docs/spec.md
   const HASH_METHOD = 'sha256';
@@ -31,7 +34,9 @@ class GitLfsFile extends FieldItemBase {
    * {@inheritdoc}
    */
   public static function defaultStorageSettings() {
-    return parent::defaultStorageSettings();
+    return [
+        'lfs_server' => ''
+      ] + parent::defaultStorageSettings();
   }
 
   /**
@@ -103,8 +108,26 @@ class GitLfsFile extends FieldItemBase {
    */
   public function storageSettingsForm(array &$form, FormStateInterface $form_state, $has_data) {
     $elements = [];
+
+    $elements['lfs_server'] = [
+      '#type' => 'select',
+      '#title' => t('LFS Server'),
+      '#required' => TRUE,
+      '#options' => LfsServer::getEnabledServerOptions(),
+      '#empty_option' => $this->t('None'),
+    ];
+
+    if (!empty($this->getSetting('lfs_server'))) {
+      $elements['lfs_server']['#default_value'] = $this->getSetting('lfs_server');
+    } else {
+      $link = \Drupal\Core\Url::fromRoute('entity.lfs_server.collection')->toString();
+      $message = $this->t('No LFS servers have been set. You must first set an LFS server before configuring the Form options. Please go to the <a href="@link">Add Server</a> screen and add one.', array('@link' => $link));
+      $this->messenger()->addWarning($message);
+    }
+
     return $elements;
   }
+
 
   /**
    * {@inheritdoc}

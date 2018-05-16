@@ -302,6 +302,26 @@ class LfsServer extends ConfigEntityBase implements LfsServerInterface {
   /**
    * {@inheritdoc}
    */
+  private static function getEnabledServers() {
+    $storage = \Drupal::entityTypeManager()->getStorage('lfs_server');
+    return $storage->loadByProperties(['status' => 1]);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function getEnabledServerOptions() {
+    $options = [];
+    $servers = self::getEnabledServers();
+    foreach($servers as $server) {
+      $options[$server->id()] = $server->getRepositoryString();
+    }
+    return $options;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getServerStatus() {
     if ((bool) $this->status()) {
       $this->getGitHubStatus();
@@ -319,6 +339,9 @@ class LfsServer extends ConfigEntityBase implements LfsServerInterface {
     }
   }
 
+  /**
+   * {@inheritdoc}
+   */
   private function getGitHubStatus() {
     // Try authenticating with user.
     try {
